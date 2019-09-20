@@ -57,16 +57,17 @@ class Elitism(SelectionBase):
 
     def apply(self, individuals, fitnesses, inplace=False):
         self._selection_step(individuals, fitnesses)
-        if not inplace:
+        if not inplace: #inplace is true bij input dus dit gebeurt niet
             return self._reproduction_copy(individuals)
         self._reproduction_inplace(individuals)
 
     def _selection_step(self, individuals, grades):
         limit, loci = individuals.shape
-        self._selection_mask = np.ones(limit, dtype=bool)
+        self._selection_mask = np.ones(limit, dtype=bool) #survive by default
         if self.rate:
-            no_survivors = max(2, int(limit * self.rate))
-            survivors = np.argsort(grades)[:no_survivors]
+            no_survivors = max(2, int(limit * self.rate)) # #of dying individuals
+            print("{} van de {} individuen overleven het niet".format(no_survivors, limit))
+            survivors = np.argsort(grades)[:no_survivors] #worst x fitnesses die
             self._selection_mask[survivors] = False
 
     def _reproduction_inplace(self, individuals):

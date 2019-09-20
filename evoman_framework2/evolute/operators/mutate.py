@@ -3,7 +3,7 @@ import numpy as np
 
 class MutationBase:
 
-    def __init__(self, rate=0.1):
+    def __init__(self, rate=0.01): #ff verlaagd om er geen last van te hebben
         self.rate = rate
         self.mask = None
 
@@ -21,7 +21,7 @@ class MutationBase:
 
 class UniformLocuswiseMutation(MutationBase):
 
-    def __init__(self, rate=0.1, low=-1., high=1.):
+    def __init__(self, rate=0.01, low=-1., high=1.):
         super().__init__(rate)
         self.low = low
         self.high = high

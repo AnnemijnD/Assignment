@@ -35,6 +35,7 @@ env = Environment(experiment_name=experiment_name,
 # default environment fitness is assumed for experiment
 
 #env.state_to_log() # checks environment state
+
 # runs simulation for player x
 def simulation(env,x):
     fitness, hp_player, hp_enemy, timePlayed = env.play(pcont=x)
@@ -44,10 +45,15 @@ def simulation(env,x):
 from evolute import GeneticPopulation
 from evolute.evaluation import SimpleFitness
 
-pop = GeneticPopulation(loci=265, limit=3,
+n_hidden = 10 #dit is het aantal hidden neurons in onze demo_controller
+n_vars = (env.get_num_sensors()+1)*n_hidden + (n_hidden+1)*5 # #elementen in 1 chromosoom
+#heb dit ff hier neergezet om die loci=265 te verklaren
+
+
+pop = GeneticPopulation(loci=n_vars, limit=9,
                         fitness_wrapper=SimpleFitness(lambda x: simulation(env,x)))
 
-history = pop.run(10, verbosity=1)
+history = pop.run(20, verbosity=1)
 
 history = {k: np.array(v) for k, v in history.history.items()}
 
@@ -58,7 +64,7 @@ from matplotlib import pyplot as plt
 plt.plot(x, history["mean_grade"], "r-", label="mean")
 plt.plot(x, history["mean_grade"] + history["grade_std"], "b--", label="std")
 plt.plot(x, history["mean_grade"] - history["grade_std"], "b--")
-plt.plot(x, history["best_grade"], "g-", label="mean")
+plt.plot(x, history["best_grade"], "g-", label="best")
 
 plt.title("Population convergence")
 plt.legend()

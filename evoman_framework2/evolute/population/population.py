@@ -10,7 +10,7 @@ class Population:
 
     def __init__(self, loci: int,
                  fitness_wrapper,
-                 limit=100,
+                 limit=10,
                  operators=None,
                  initializer=None):
         """
@@ -62,7 +62,7 @@ class Population:
     def run(self, epochs: int,
             survival_rate: float=0.5,
             mutation_rate: float=0.1,
-            force_update_at_every: int=10,
+            force_update_at_every: int=999999,
             verbosity: int=1,
             history=None):
         """
@@ -86,7 +86,7 @@ class Population:
             self.epoch(force_update=force_update_at_every and epoch % force_update_at_every == 0,
                        verbosity=verbosity)
             history.record({"generation": self.age,
-                            "best_grade": self.fitnesses.min(),
+                            "best_grade": self.fitnesses.max(),
                             "mean_grade": self.fitnesses.mean(),
                             "grade_std": self.fitnesses.std()})
         if verbosity:
@@ -110,26 +110,30 @@ class Population:
         if verbosity:
             print("EVOLUTION: initial mean grade :", self.fitnesses.mean())
             print("EVOLUTION: initial std of mean:", self.fitnesses.std())
-            print("EVOLUTION: initial best grade :", self.fitnesses.min())
+            print("EVOLUTION: initial best grade :", self.fitnesses.max())
 
     def update(self, forced=False, verbose=0, **fitness_kw):
         inds = self._invalidated_individual_indices(force_update=forced)
         for ind in inds.flat:
             if verbose:
-                print("\rUpdating {}/{}".format(self.limit, ind+1), end="")
+                print("\rUpdating {}/{}".format(ind+1, self.limit), end="")
             self.update_individual(ind, **fitness_kw)
         if verbose:
             print("\rUpdating {}/{}".format(self.limit, self.limit), end="")
-            print(" Best grade:", self.fitnesses.min())
-        chump = self.fitnesses.argmin()
-        if self.fitnesses[chump] < self.fitnesses[self.champion]:
+            print(" Best grade:", self.fitnesses.max())
+        chump = self.fitnesses.argmax()
+        if self.fitnesses[chump] > self.fitnesses[self.champion]:
             self.champion = chump
 
     def update_individual(self, index, **fitness_kw):
-        raise NotImplementedError
+        raise NotImplementedError 
 
     def _invalidated_individual_indices(self, force_update):
-        return np.arange(self.limit) if force_update else self.operators.invalid_individual_indices()
+        returnDit = np.arange(self.limit) if force_update else self.operators.invalid_individual_indices()
+        print("Dit zijn de indices van de levende individuen {}".format(returnDit))
+        # deze verwijst naar np.where(self.selection.mask | self.mutation.mask)[0]
+        # dat is goed, maar ik snap niet waar de populatie weer opgevuld wordt...
+        return returnDit
 
     def save(self, path):
         import pickle
