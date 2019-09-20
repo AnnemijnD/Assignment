@@ -29,7 +29,8 @@ env = Environment(experiment_name=experiment_name,
                   player_controller=player_controller(),
                   enemymode="static",
                   level=2,
-                  speed="fastest")
+                  speed="fastest",
+                  sound="off")
 
 # default environment fitness is assumed for experiment
 
@@ -49,7 +50,7 @@ n_hidden = 10
 n_vars = (env.get_num_sensors()+1)*n_hidden + (n_hidden+1)*5 # multilayer with 10 hidden neurons
 dom_u = 1
 dom_l = -1
-npop = 100
+npop = 5
 gens = 30
 mutation = 0.2
 last_best = 0

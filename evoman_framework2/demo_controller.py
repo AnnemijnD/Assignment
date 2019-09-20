@@ -12,9 +12,8 @@ class player_controller(Controller):
 
 	def control(self, inputs,controller):
 		# Normalises the input using min-max scaling
-		print(inputs)
 		inputs = (inputs-min(inputs))/float((max(inputs)-min(inputs)))
-		print(type(self.n_hidden[0]))
+
 		if self.n_hidden[0]>0:
 			# Preparing the weights and biases from the controller of layer 1
 
@@ -66,6 +65,9 @@ class player_controller(Controller):
 			release = 0
 
 		return [left, right, jump, shoot, release]
+
+
+###############################################################################
 
 # implements controller structure for enemy
 class enemy_controller(Controller):

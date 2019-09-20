@@ -10,7 +10,6 @@ sys.path.insert(0, 'evoman')
 from environment import Environment
 
 experiment_name = 'test'
-
 if not os.path.exists(experiment_name):
     os.makedirs(experiment_name)
 

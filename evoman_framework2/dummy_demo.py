@@ -8,6 +8,8 @@
 import sys, os
 sys.path.insert(0, 'evoman') 
 from environment import Environment
+from demo_controller import player_controller
+
 
 experiment_name = 'dummy_demo'
 if not os.path.exists(experiment_name):
@@ -15,5 +17,8 @@ if not os.path.exists(experiment_name):
 
 # initializes environment with ai player using random controller, playing against static enemy
 env = Environment(experiment_name=experiment_name)
-env.play()
+
+##############################
+
+fitness, hp_player, hp_enemy, time = env.play()
 
