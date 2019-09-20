@@ -57,7 +57,7 @@ pop = GeneticPopulation(loci=265, limit=5,
 history = pop.run(10, verbosity=1)
 
 
-
+exit()
 
 
 
