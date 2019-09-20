@@ -10,7 +10,7 @@ class Population:
 
     def __init__(self, loci: int,
                  fitness_wrapper,
-                 limit=20,
+                 limit=100,
                  operators=None,
                  initializer=None):
         """
@@ -35,7 +35,7 @@ class Population:
 
     @classmethod
     def simple_fitness(cls, fitness_callback,
-                       loci, limit=100,
+                       loci, limit=3,
                        initializer=None,
                        operators=None,
                        fitness_constants=None):
@@ -60,7 +60,7 @@ class Population:
         return weights @ self.individuals
 
     def run(self, epochs: int,
-            survival_rate: float=0.8,
+            survival_rate: float=0.5,
             mutation_rate: float=0.1,
             force_update_at_every: int=0,
             verbosity: int=1,
@@ -86,14 +86,9 @@ class Population:
             self.epoch(force_update=force_update_at_every and epoch % force_update_at_every == 0,
                        verbosity=verbosity)
             history.record({"generation": self.age,
-                            "best_grade": self.fitnesses.max(),
+                            "best_grade": self.fitnesses.min(),
                             "mean_grade": self.fitnesses.mean(),
                             "grade_std": self.fitnesses.std()})
-    #####################################################
-    #####################################################
-    ##!!!!!belangrijk om best=fitness.max te doen!!!!!!##
-    #####################################################
-    #####################################################
         if verbosity:
             print()
         return history
@@ -102,7 +97,7 @@ class Population:
         if not self.age:
             self._initialize(verbosity, **fitness_kw)
 
-        self.operators.selection(1, self.fitnesses, inplace=True)
+        self.operators.selection(self.individuals, self.fitnesses, inplace=True)
         self.individuals = self.operators.mutation(self.individuals, inplace=False)
         self.update(force_update, verbose=verbosity, **fitness_kw)
         self.age += 1
@@ -115,7 +110,7 @@ class Population:
         if verbosity:
             print("EVOLUTION: initial mean grade :", self.fitnesses.mean())
             print("EVOLUTION: initial std of mean:", self.fitnesses.std())
-            print("EVOLUTION: initial best grade :", self.fitnesses.max())
+            print("EVOLUTION: initial best grade :", self.fitnesses.min())
 
     def update(self, forced=False, verbose=0, **fitness_kw):
         inds = self._invalidated_individual_indices(force_update=forced)
@@ -125,7 +120,7 @@ class Population:
             self.update_individual(ind, **fitness_kw)
         if verbose:
             print("\rUpdating {}/{}".format(self.limit, self.limit), end="")
-            print(" Best grade:", self.fitnesses.max())
+            print(" Best grade:", self.fitnesses.min())
         chump = self.fitnesses.argmin()
         if self.fitnesses[chump] < self.fitnesses[self.champion]:
             self.champion = chump
