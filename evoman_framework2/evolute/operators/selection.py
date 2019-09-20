@@ -62,7 +62,9 @@ class Elitism(SelectionBase):
         self._reproduction_inplace(individuals)
 
     def _selection_step(self, individuals, grades):
+
         limit, loci = individuals.shape
+
         self._selection_mask = np.ones(limit, dtype=bool)
         if self.rate:
             no_survivors = max(2, int(limit * self.rate))

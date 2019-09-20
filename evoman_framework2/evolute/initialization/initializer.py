@@ -10,10 +10,12 @@ class Initializer:
 class NormalRandom(Initializer):
 
     def __init__(self, mean=0., stdev=1.):
+
         self.mean = mean
         self.stdev = stdev
 
     def initialize(self, *shape):
+        print(*shape)
         return np.random.randn(*shape) * self.stdev + self.mean
 
 

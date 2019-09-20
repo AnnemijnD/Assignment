@@ -44,7 +44,6 @@ def simulation(env,x):
 
 popu = np.random.uniform(-1, 1, (5, 265)) #5 individuals en ??265?? variabelen
 
-print(popu)
 #popuFitness = evaluate(popu)
 
 
@@ -53,6 +52,7 @@ from evolute.evaluation import SimpleFitness
 
 pop = GeneticPopulation(loci=265, limit=5,
                         fitness_wrapper=SimpleFitness(lambda x: simulation(env,x)))
+
 
 history = pop.run(10, verbosity=1)
 

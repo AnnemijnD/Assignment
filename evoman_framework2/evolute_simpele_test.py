@@ -18,7 +18,7 @@ pop = GeneticPopulation(loci=10,
  and index of mutants
 """
 
-pop.individuals[1]
+
 
 
 history = pop.run(100, verbosity=1)

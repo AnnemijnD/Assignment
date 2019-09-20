@@ -8,7 +8,7 @@ from ..utility.history import History
 
 class Population:
 
-    def __init__(self, loci: int,
+    def __init__(self, loci,
                  fitness_wrapper,
                  limit=20,
                  operators=None,
