@@ -12,14 +12,17 @@ class player_controller(Controller):
 
 	def control(self, inputs,controller):
 		# Normalises the input using min-max scaling
-		print(inputs)
+
 		inputs = (inputs-min(inputs))/float((max(inputs)-min(inputs)))
-		print(type(self.n_hidden[0]))
 		if self.n_hidden[0]>0:
 			# Preparing the weights and biases from the controller of layer 1
 
+			print(self.n_hidden[0])
+			print(controller)
 			# Biases for the n hidden neurons
 			bias1 = controller[:self.n_hidden[0]].reshape(1,self.n_hidden[0])
+			exit()
+
 			# Weights for the connections from the inputs to the hidden nodes
 			weights1_slice = len(inputs)*self.n_hidden[0] + self.n_hidden[0]
 			weights1 = controller[self.n_hidden[0]:weights1_slice].reshape((len(inputs),self.n_hidden[0]))
