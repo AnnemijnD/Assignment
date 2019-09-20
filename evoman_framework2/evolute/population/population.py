@@ -62,7 +62,7 @@ class Population:
     def run(self, epochs: int,
             survival_rate: float=0.5,
             mutation_rate: float=0.1,
-            force_update_at_every: int=0,
+            force_update_at_every: int=10,
             verbosity: int=1,
             history=None):
         """
