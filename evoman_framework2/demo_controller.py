@@ -70,6 +70,9 @@ class player_controller(Controller):
 
 		return [left, right, jump, shoot, release]
 
+
+###############################################################################
+
 # implements controller structure for enemy
 class enemy_controller(Controller):
 	def __init__(self):
